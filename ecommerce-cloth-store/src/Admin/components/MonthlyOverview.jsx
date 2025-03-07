@@ -77,7 +77,7 @@ const renderStats = () => {
 };
 export default function MonthlyOverview() {
   return (
-    <Card sx={{ bgcolor: "#242B2E", color:"#fff" }}>
+    <Card sx={{ bgcolor: "#242B2E", color: "#fff", flexGrow: 1 }}>
       <CardHeader
         title="Monthly Overview"
         action={
@@ -90,7 +90,7 @@ export default function MonthlyOverview() {
             <Box component={"span"} sx={{ fontWeight: 600 }}>
               Total 48.5% growth
             </Box>
-         😎 this month
+            😎 this month
           </Typography>
         }
         titleTypographyProps={{
@@ -107,5 +107,6 @@ export default function MonthlyOverview() {
         </Grid>
       </CardContent>
     </Card>
+    
   );
 }

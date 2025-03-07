@@ -1,131 +1,169 @@
-  import React, { useState } from "react";
-  import {
-    Drawer,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    IconButton,
-    useMediaQuery,
-    useTheme,
-  } from "@mui/material";
-  import {
-    Dashboard,
-    ShoppingCart,
-    People,
-    Assignment,
-    AddBox,
-    AccountCircle,
-    Menu,
-  } from "@mui/icons-material";
-  import { Link, Outlet, Route, Routes } from "react-router-dom";
-  import AdminDashboard from "./AdminDashboard";
-  import Products from "./Products";
-  import Orders from "./Orders";
-  import Customers from "./Customers";
-  import AddProduct from "./AddProduct";
+import React, { useState } from "react";
+import {
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  useMediaQuery,
+  useTheme,
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import {
+  Menu,
+  Dashboard,
+  ShoppingCart,
+  People,
+  AccountCircle,
+  ViewList,
+  AddBox,
+} from "@mui/icons-material";
+import { Link, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import AdminDashboard from "./AdminDashboard";
+import Products from "./Products";
+import Orders from "./Orders";
+import Customers from "./Customers";
+import AddProduct from "./AddProduct";
 
-  const menuItems = [
-    { text: "Dashboard", icon: <Dashboard />, path: "/admin/" },
-    { text: "Products", icon: <ShoppingCart />, path: "/admin/products" },
-    { text: "Customers", icon: <People />, path: "/admin/customers" },
-    { text: "Orders", icon: <Assignment />, path: "/admin/orders" },
-    { text: "Add Product", icon: <AddBox />, path: "/admin/products/create" },
-  ];
+const menuItems = [
+  { text: "Dashboard", icon: <Dashboard />, path: "/admin/" },
+  { text: "Products", icon: <ShoppingCart />, path: "/admin/products" },
+  { text: "Customers", icon: <People />, path: "/admin/customers" },
+  { text: "Orders", icon: <ViewList />, path: "/admin/orders" },
+  { text: "Add Product", icon: <AddBox />, path: "/admin/products/create" },
+];
 
-  const Admin = () => {
-    const [mobileOpen, setMobileOpen] = useState(false);
+const ResponsiveLayout = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
+  // For screens md and above, we'll show permanent sidebar.
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const drawerWidth = 240;
+  const location = useLocation();
 
-    const theme = useTheme();
-    // isLargeScreen is true if screen width is medium (md) or above
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
-   
-    return (
-      <div className="flex">
-        {/* Sidebar for large screens */}
-        {isLargeScreen && (
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawerContent = (
+    <Box
+      sx={{
+        width: drawerWidth,
+        bgcolor: "#01518C",
+        color: "#fff",
+        height: "100%",
+        overflowX: "hidden",
+      }}
+      role="presentation"
+    >
+      <List sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        <Box>
+          {menuItems.map((item) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <ListItem key={item.text} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={item.path}
+                  onClick={() => setMobileOpen(false)}
+                  className="hover:!bg-[#2ba9db]"
+                  sx={{
+                    backgroundColor: isActive ? "#2ba9db" : "inherit",
+                    color: isActive ? "white" : "inherit",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: isActive ? "white" : "inherit" }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </Box>
+        {/* Account Name menu item always at the bottom */}
+        <ListItem disablePadding sx={{ mt: "auto" }}>
+          <ListItemButton
+            component={Link}
+            to="/admin/account"
+            onClick={() => setMobileOpen(false)}
+            className="hover:!bg-[#2ba9db] "
+            sx={{
+              backgroundColor:
+                location.pathname === "/admin/account" ? "#2ba9db" : "inherit",
+              color:
+                location.pathname === "/admin/account" ? "white" : "inherit",
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                color:
+                  location.pathname === "/admin/account" ? "white" : "inherit",
+              }}
+            >
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Account" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </Box>
+  );
+
+  return (
+    <Box sx={{ display: "flex", height: "100vh" }}>
+      {/* Sidebar for Desktop */}
+      {isDesktop && (
         <Drawer
           variant="permanent"
-          className="hidden md:flex"
           sx={{
-            width: 240,
+            width: drawerWidth,
             flexShrink: 0,
-            "& .MuiDrawer-paper": { width: 240, boxSizing: "border-box" },
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+              overflowX: "hidden",
+            },
           }}
+          open
         >
-          <List className="h-full flex flex-col justify-between">
-            <div>
-              {menuItems.map((item) => (
-                <ListItem key={item.text} disablePadding>
-                  <ListItemButton component={Link} to={item.path}>
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.text} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </div>
-            <ListItem disablePadding>
-              <ListItemButton component={Link} to="/admin/account">
-                <ListItemIcon>
-                  <AccountCircle />
-                </ListItemIcon>
-                <ListItemText primary="Account" />
-              </ListItemButton>
-            </ListItem>
-          </List>
+          {drawerContent}
         </Drawer>
-          )}
+      )}
 
-        {/* Collapsible Drawer for small screens */}
-        {!isLargeScreen && (
-       <>
-       <IconButton
-          className="md:hidden p-4"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          <Menu />
-        </IconButton>
-        <Drawer
-          open={mobileOpen}
-          onClose={() => setMobileOpen(false)}
-          sx={{ "& .MuiDrawer-paper": { width: 240 } }}
-        >
-          <List className="h-full flex flex-col justify-between">
-            <div>
-              {menuItems.map((item) => (
-                <ListItem key={item.text} disablePadding>
-                  <ListItemButton
-                    component={Link}
-                    to={item.path}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.text} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </div>
-            <ListItem disablePadding>
-              <ListItemButton
-                component={Link}
-                to="/admin/account"
-                onClick={() => setMobileOpen(false)}
+      {/* Main Layout Area */}
+      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+        {/* AppBar for Mobile */}
+        {!isDesktop && (
+          <AppBar position="static">
+            <Toolbar className="bg-[#01518C]">
+              <IconButton
+                color="inherit"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2 }}
               >
-                <ListItemIcon>
-                  <AccountCircle />
-                </ListItemIcon>
-                <ListItemText primary="Account" />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Drawer>
-        </>
-         )}
+                <Menu />
+              </IconButton>
+              <Typography variant="h6" noWrap component="div">
+                Admin Panel
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        )}
 
-        {/* Content Area */}
-        <main className="flex-1 p-4">
+        {/* Content Section */}
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, py: 3, px: 2, bgcolor: "#edeee9" }}
+        >
           <Outlet />
+
           <Routes>
             <Route path="/" element={<AdminDashboard />} />
             <Route path="/products" element={<Products />} />
@@ -133,9 +171,30 @@
             <Route path="/customers" element={<Customers />} />
             <Route path="/products/create" element={<AddProduct />} />
           </Routes>
-        </main>
-      </div>
-    );
-  };
+        </Box>
+      </Box>
 
-  export default Admin;
+      {/* Temporary Drawer for Mobile */}
+      {!isDesktop && (
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{ keepMounted: true }}
+          sx={{
+            display: { xs: "block", md: "none" },
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+              overflowX: "hidden",
+            },
+          }}
+        >
+          {drawerContent}
+        </Drawer>
+      )}
+    </Box>
+  );
+};
+
+export default ResponsiveLayout;

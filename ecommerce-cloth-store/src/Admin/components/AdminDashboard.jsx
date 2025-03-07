@@ -5,12 +5,12 @@ import MonthlyOverview from "./MonthlyOverview";
 
 export default function AdminDashboard() {
   return (
-    <div className="px-10">
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+    <div className="md:px-10">
+      <Grid container spacing={2} alignItems={"stretch"}>
+        <Grid item xs={12} md={4} sx={{ display: "flex", flexDirection: "column" }}>
           <Achievement />
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={8} sx={{ display: "flex" , flexDirection: "column"}}>
           <MonthlyOverview/>
         </Grid>
       </Grid>
