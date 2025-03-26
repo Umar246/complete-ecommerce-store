@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../config/ApiConfig";
+import { toast } from "react-toastify";
 
 // Async action to get all products
 export const getProducts = createAsyncThunk(
@@ -54,6 +55,38 @@ export const findProductById = createAsyncThunk(
   }
 );
 
+// Async action to create a new product
+export const createProduct = createAsyncThunk(
+  "products/createProduct",
+  async (productData, { rejectWithValue }) => {
+    try {
+      const response = await api.post("/admin/products/", productData);
+      console.log('response after create product', response.data)
+      toast.success("Product created successfully")
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+      toast.error(error.message)
+    }
+  }
+);
+
+// Async action to delete a product by ID
+export const deleteProduct = createAsyncThunk(
+  "products/deleteProduct",
+  async (productID, { rejectWithValue }) => {
+    try {
+      console.log('productID in productSlice: ', productID)
+      await api.delete(`/admin/products/${productID}`);
+      toast.success("Product Deleted")
+      return productID;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+      toast.success(error.message)
+    }
+  }
+);
+
 const productsSlice = createSlice({
   name: "products",
   initialState: {
@@ -88,6 +121,34 @@ const productsSlice = createSlice({
         state.singleProduct = action.payload;
       })
       .addCase(findProductById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Handle createProduct
+      .addCase(createProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products.push(action.payload);
+      })
+      .addCase(createProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Handle deleteProduct
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products.content = state.products.content.filter(
+          (product) => product._id !== action.payload
+        );
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

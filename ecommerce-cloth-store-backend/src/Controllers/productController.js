@@ -48,6 +48,7 @@ const getAllProducts = async (req, res) => {
 
 //* DELETE PRODUCT
 const deleteProduct = async (req, res) => {
+  console.log('request for delete:', req)
   const productId = req.params.id;
 
   try {

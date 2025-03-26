@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import React from "react";
 import Achievement from "./Achievement";
 import MonthlyOverview from "./MonthlyOverview";
+// import Products from "./Products";
 
 export default function AdminDashboard() {
   return (
@@ -13,6 +14,9 @@ export default function AdminDashboard() {
         <Grid item xs={12} md={8} sx={{ display: "flex" , flexDirection: "column"}}>
           <MonthlyOverview/>
         </Grid>
+        {/* <Grid item xs={12} md={6} sx={{ display: "flex" , flexDirection: "column"}}>
+          <Products/>
+        </Grid> */}
       </Grid>
     </div>
   );

@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
 import { Provider } from "react-redux";
 import store from "./Store/Store";
 
@@ -12,6 +13,15 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
+      <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition={Bounce}
+        />
         <App />
       </Provider>
     </BrowserRouter>
