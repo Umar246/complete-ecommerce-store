@@ -131,7 +131,7 @@ const productsSlice = createSlice({
       })
       .addCase(createProduct.fulfilled, (state, action) => {
         state.loading = false;
-        state.products.push(action.payload);
+        state?.products?.content?.push(action.payload);
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.loading = false;

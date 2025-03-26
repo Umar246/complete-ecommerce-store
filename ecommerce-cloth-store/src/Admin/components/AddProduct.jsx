@@ -3,6 +3,8 @@ import { TextField, Button, MenuItem, Card, CardContent, Typography } from "@mui
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../Features/productSlice";
 
+
+
 const AddProductForm = () => {
   const [product, setProduct] = useState({
     title: "",
@@ -15,9 +17,9 @@ const AddProductForm = () => {
     color: "",
     imageUrl: "",
     sizes: [
-      { name: "S", quantity: 0 },
-      { name: "M", quantity: 0 },
-      { name: "L", quantity: 0 },
+      { name: "S", quantity: null },
+      { name: "M", quantity: null },
+      { name: "L", quantity: null},
     ],
     topLevelCategory: "",
     secondLevelCategory: "",
@@ -25,7 +27,7 @@ const AddProductForm = () => {
   });
 
   const dispatch = useDispatch();
-  const jwt = localStorage.getItem("jwt");
+  // const jwt = localStorage.getItem("jwt");
 
   const handleChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
@@ -41,9 +43,9 @@ const AddProductForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createProduct(product));
+    await dispatch(createProduct(product));
     setProduct({
       title: "",
       description: "",
@@ -68,7 +70,7 @@ const AddProductForm = () => {
   return (
     <Card className="max-w-4xl mx-auto mt-10 p-5 shadow-lg bg-white">
       <CardContent>
-        <Typography variant="h5" gutterBottom className="text-center font-bold text-gray-800">
+        <Typography variant="h5" gutterBottom className="pb-5 font-bold text-gray-800">
           Add New Product
         </Typography>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -96,7 +98,7 @@ const AddProductForm = () => {
             </div>
           ))}
           
-          <TextField label="Total Quantity" required name="quantity" fullWidth value={product.quantity} />
+          <TextField label="Total Quantity" required name="quantity" fullWidth value={product.quantity} disabled />
 
           <TextField select label="Top Level Category" name="topLevelCategory" fullWidth onChange={handleChange} required>
             <MenuItem value="Men">Men</MenuItem>

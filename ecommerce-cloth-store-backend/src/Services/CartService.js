@@ -43,6 +43,9 @@ const findUserCartAndTotal = async (userId) => {
     cart.discount = totalPrice - totalDiscountedPrice;
     cart.totalDiscountedPrice = totalDiscountedPrice;
 
+    // 🔥 Populate `cart.cartItems.product` to ensure product details are included
+    await cart.populate("cartItems.product");
+
     return cart;
   } catch (error) {
     throw new Error(error.message);
@@ -90,7 +93,6 @@ const addToCart = async (userId, req) => {
       cart.cartItems.push(createdCartItem);
 
       await cart.save();
-
     } else {
       return { message: "Item already in cart" };
     }

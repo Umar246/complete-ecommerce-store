@@ -16,7 +16,6 @@ import { deleteProduct, getProducts } from "../../Features/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-
 export default function Products() {
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state);
@@ -24,13 +23,12 @@ export default function Products() {
   // console.log("products --------", product);
 
   const handleProductDelete = (productId) => {
-
     try {
-       console.log('productId handleProductDelete: ', productId)
+      console.log("productId handleProductDelete: ", productId);
       dispatch(deleteProduct(productId));
       // toast.success("Product Deleted Successfully")
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
   };
 
@@ -50,7 +48,7 @@ export default function Products() {
 
     console.log("Sending data to API: ", data);
     dispatch(getProducts(data));
-  },[]);
+  }, []);
   return (
     <div className="p-5">
       <Card className="mt-2">
@@ -83,7 +81,7 @@ export default function Products() {
                   <TableCell align="center">{item?.quantity}</TableCell>
                   <TableCell align="center">
                     <Button
-                      onClick={()=>handleProductDelete(item._id)}
+                      onClick={() => handleProductDelete(item._id)}
                       variant="outlined"
                     >
                       Delete

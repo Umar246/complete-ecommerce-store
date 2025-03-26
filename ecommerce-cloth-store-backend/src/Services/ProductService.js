@@ -62,7 +62,10 @@ const createProduct = async (reqData) => {
     category: thirdLevel._id.toString(),
   });
 
-  return await product.save();
+  const savedProduct = await product.save();
+
+  //? Populate category before returning
+  return await savedProduct.populate("category");
 };
 
 //* DELETE PRODUCT
