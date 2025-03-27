@@ -118,6 +118,7 @@ const AddProductForm = () => {
             <MenuItem value="Jeans">Jeans</MenuItem>
             <MenuItem value="Kurta">Kurta</MenuItem>
             <MenuItem value="Kameez">Kameez</MenuItem>
+            <MenuItem value="mens_kurta">Mens Kurta</MenuItem>
           </TextField>
           
           <Button type="submit" variant="contained"fullWidth className="mt-5 bg-[#01518C]">

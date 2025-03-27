@@ -38,11 +38,11 @@ export default function Products() {
       colors: [],
       sizes: [],
       minPrice: 0,
-      maxPrice: 1000000000000000,
+      maxPrice: Infinity,
       minDiscount: 0,
       sort: "price_low",
-      pageNumber: 1,
-      pageSize: 20,
+      pageNumber: "",
+      pageSize: "",
       stock: "",
     };
 
