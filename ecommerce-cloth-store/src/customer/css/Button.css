@@ -1,0 +1,15 @@
+.styledButton {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: background 1s ease, transform 1s ease;
+}
+
+.styledButton:hover {
+  background: linear-gradient(135deg, #a777e3, #6e8efb);
+}
+
+.styledButton:active {
+  transform: translateY(2px);
+}
