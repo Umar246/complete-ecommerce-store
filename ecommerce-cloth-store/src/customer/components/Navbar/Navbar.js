@@ -267,7 +267,7 @@ export default function Navbar() {
                       onClick={handleOpen}
                       className=" font-medium text-grey-900 hover:text-gray-800"
                     >
-                      Signin(Now is new change)
+                      Signin
                     </Button>
                   </>
                 )}
