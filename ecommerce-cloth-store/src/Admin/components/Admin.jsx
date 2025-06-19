@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Drawer,
   IconButton,
@@ -13,6 +13,7 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  CssBaseline,
 } from "@mui/material";
 import {
   Menu,
@@ -31,7 +32,7 @@ import Customers from "./Customers";
 import AddProduct from "./AddProduct";
 
 const menuItems = [
-  { text: "Dashboard", icon: <Dashboard />, path: "/admin/" },
+  { text: "Dashboard", icon: <Dashboard />, path: "/admin" },
   { text: "Products", icon: <ShoppingCart />, path: "/admin/products" },
   { text: "Customers", icon: <People />, path: "/admin/customers" },
   { text: "Orders", icon: <ViewList />, path: "/admin/orders" },
@@ -41,7 +42,6 @@ const menuItems = [
 const ResponsiveLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
-  // For screens md and above, we'll show permanent sidebar.
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const drawerWidth = 240;
   const location = useLocation();
@@ -50,128 +50,192 @@ const ResponsiveLayout = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  useEffect(() => {
+    if (mobileOpen) {
+      setMobileOpen(false);
+    }
+  }, [location.pathname]);
+
   const drawerContent = (
     <Box
       sx={{
         width: drawerWidth,
-        bgcolor: "#01518C",
+        bgcolor: "#4f46e5",
         color: "#fff",
         height: "100%",
-        overflowX: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        overflowX: "hidden", // Fixes horizontal scrollbar
       }}
-      role="presentation"
     >
-      <List sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        <Box>
-          {menuItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <ListItem key={item.text} disablePadding>
-                <ListItemButton
-                  component={Link}
-                  to={item.path}
-                  onClick={() => setMobileOpen(false)}
-                  className="hover:!bg-[#2ba9db]"
-                  sx={{
-                    backgroundColor: isActive ? "#2ba9db" : "inherit",
-                    color: isActive ? "white" : "inherit",
-                  }}
-                >
-                  <ListItemIcon sx={{ color: isActive ? "white" : "inherit" }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </Box>
-        {/* Account Name menu item always at the bottom */}
-        <ListItem disablePadding sx={{ mt: "auto" }}>
+      <Typography variant="h6" sx={{ p: 2, fontWeight: 700 }}>
+        {" "}
+        {/* Reduced padding */}
+        Admin Panel
+      </Typography>
+
+      <List sx={{ flex: 1, py: 0 }}>
+        {" "}
+        {/* Reduced vertical padding */}
+        {menuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton
+                component={Link}
+                to={item.path}
+                className="hover:!bg-[#0a1535]"
+                sx={{
+                  backgroundColor: isActive ? "#0a1535" : "inherit",
+                  color: "inherit",
+                  py: 1, // Reduced vertical padding
+                  px: 2, // Reduced horizontal padding
+                }}
+              >
+                <ListItemIcon sx={{ color: "inherit", minWidth: "36px" }}>
+                  {" "}
+                  {/* Reduced min-width */}
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </List>
+
+      {/* Account at bottom */}
+      {/* <List sx={{ py: 0 }}>
+        {" "}
+       
+        <ListItem disablePadding>
           <ListItemButton
             component={Link}
             to="/admin/account"
-            onClick={() => setMobileOpen(false)}
-            className="hover:!bg-[#2ba9db] "
+            className="hover:!bg-[#0a1535]"
             sx={{
               backgroundColor:
-                location.pathname === "/admin/account" ? "#2ba9db" : "inherit",
-              color:
-                location.pathname === "/admin/account" ? "white" : "inherit",
+                location.pathname === "/admin/account" ? "#0a1535" : "inherit",
+              color: "inherit",
+              py: 1, 
+              px: 2, 
             }}
           >
-            <ListItemIcon
-              sx={{
-                color:
-                  location.pathname === "/admin/account" ? "white" : "inherit",
-              }}
-            >
+            <ListItemIcon sx={{ color: "inherit", minWidth: "36px" }}>
+              {" "}
+           
               <AccountCircle />
             </ListItemIcon>
             <ListItemText primary="Account" />
           </ListItemButton>
         </ListItem>
-      </List>
+      </List> */}
     </Box>
   );
 
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      <CssBaseline />
+
+      {/* AppBar for Mobile */}
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
+          bgcolor: "#4f46e5",
+        }}
+      >
+        <Toolbar sx={{ minHeight: "56px !important" }}>
+          {" "}
+          {/* Reduced toolbar height */}
+          {!isDesktop && (
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 1 }}
+            >
+              <Menu />
+            </IconButton>
+          )}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, fontSize: "1.1rem" }}
+          >
+            {" "}
+            {/* Reduced font size */}
+            {menuItems.find((item) => item.path === location.pathname)?.text ||
+              "Admin Panel"}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
       {/* Sidebar for Desktop */}
-      {isDesktop && (
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              overflowX: "hidden",
-            },
-          }}
-          open
-        >
-          {drawerContent}
-        </Drawer>
-      )}
-
-      {/* Main Layout Area */}
-      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        {/* AppBar for Mobile */}
-        {!isDesktop && (
-          <AppBar position="static">
-            <Toolbar className="bg-[#01518C]">
-              <IconButton
-                color="inherit"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2 }}
-              >
-                <Menu />
-              </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                Admin Panel
-              </Typography>
-            </Toolbar>
-          </AppBar>
+      <Box
+        component="nav"
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+        aria-label="mailbox folders"
+      >
+        {isDesktop ? (
+          <Drawer
+            variant="permanent"
+            sx={{
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                boxSizing: "border-box",
+                bgcolor: "#4f46e5",
+                color: "#fff",
+                overflowX: "hidden", // Double protection for scrollbar
+              },
+            }}
+            open
+          >
+            {drawerContent}
+          </Drawer>
+        ) : (
+          <Drawer
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{ keepMounted: true }}
+            sx={{
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                bgcolor: "#4f46e5",
+                color: "#fff",
+                overflowX: "hidden", // Double protection for scrollbar
+              },
+            }}
+          >
+            {drawerContent}
+          </Drawer>
         )}
+      </Box>
 
-        {/* Content Section */}
+      {/* Main Content */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: { xs: 1, md: 2 }, // Responsive padding reduction
+          width: { xs: "100%", md: `calc(100% - ${drawerWidth}px)` },
+          mt: { xs: 3, md: 0 }, // Reduced mobile top margin
+        }}
+      >
+        <Toolbar sx={{ minHeight: "48px !important" }} />{" "}
+        {/* Reduced spacer height */}
         <Box
-          component="main"
           sx={{
-            flexGrow: 1,
-            py: 3,
-            px: 2,
-            minHeight: "100vh",
-            // display: "flex",
-            bgcolor: "#edeee9",
-            overflowX: "auto",
+            bgcolor: "#f2f2f2",
+            borderRadius: 2,
+            p: { xs: 0, md: 2 }, // Responsive padding reduction
+            minHeight: "calc(100vh - 56px)", // Adjusted height calculation
           }}
         >
           <Outlet />
-
           <Routes>
             <Route path="/" element={<AdminDashboard />} />
             <Route path="/products" element={<Products />} />
@@ -181,26 +245,6 @@ const ResponsiveLayout = () => {
           </Routes>
         </Box>
       </Box>
-
-      {/* Temporary Drawer for Mobile */}
-      {!isDesktop && (
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              overflowX: "hidden",
-            },
-          }}
-        >
-          {drawerContent}
-        </Drawer>
-      )}
     </Box>
   );
 };

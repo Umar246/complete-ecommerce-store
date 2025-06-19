@@ -156,7 +156,7 @@ const AddProductForm = () => {
   };
 
   return (
-    <Card className="max-w-4xl mx-auto mt-10 p-5 shadow-lg bg-white">
+    <Card className="max-w-4xl mx-auto mt-10 p-3 md:p-5 shadow-lg bg-white">
       <CardContent>
         <Typography
           variant="h5"
@@ -313,7 +313,14 @@ const AddProductForm = () => {
             type="submit"
             variant="contained"
             fullWidth
-            className="mt-5 bg-[#01518C]"
+            className="mt-5 bg-[#3a34ac]"
+            sx={{
+              bgcolor: "#4F46E5",
+              color: "#fff",
+              "&:hover": {
+                bgcolor: "#3a34ac",
+              },
+            }}
           >
             Add Product
           </Button>

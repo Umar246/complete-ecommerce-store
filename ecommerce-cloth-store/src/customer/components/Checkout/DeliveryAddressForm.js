@@ -32,9 +32,9 @@ export default function DeliveryAddressForm() {
 
   return (
     <div className="mt-[3rem] lg:mt-[5rem] ">
-      <Grid container spacing={{ xs: 0, md: 4 }} gap={{ xs: 3, md: 0 }}>
+      <Grid container spacing={{ xs: 0, md: 4 }} gap={{ xs: 3, md: 0 }} justifyContent={"center"}>
         {/* //TODO: Address Card  */}
-        <Grid
+        {/* <Grid
           xs={12}
           md={5}
           className="border bg-white rounded-e-md shadow-md h-[30.5rem] overflow-y-scroll"
@@ -61,10 +61,10 @@ export default function DeliveryAddressForm() {
               Deliver Here
             </Button>
           </div>
-        </Grid>
+        </Grid> */}
 
         {/* //TODO: Form Side */}
-        <Grid item xs={12} md={7}>
+        <Grid item xs={12} md={8} >
           <Box className="border rounded-s-md shadow-md bg-white p-7">
             <form onSubmit={handleSubmit}>
               <Grid container spacing={3}>

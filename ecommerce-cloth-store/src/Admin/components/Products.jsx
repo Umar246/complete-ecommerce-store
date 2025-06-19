@@ -144,7 +144,7 @@ export default function Products() {
   //   }
   // };
   return (
-    <div className="p-5">
+    <div className="p-3 md:p-5 ">
       <Card className="mt-2">
         <CardHeader title="All Products" />
 
@@ -185,6 +185,7 @@ export default function Products() {
                     <Button
                       onClick={() => handleProductDelete(item._id)}
                       variant="outlined"
+                      sx={{ color: "red", borderColor: "red" }}
                     >
                       Delete
                     </Button>

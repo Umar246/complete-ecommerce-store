@@ -22,7 +22,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  
 } from "@mui/material";
 
 export default function Orders() {
@@ -66,7 +65,7 @@ export default function Orders() {
   };
 
   return (
-    <div className="p-5">
+    <div className="p-3 md:p-5">
       <Card className="mt-2">
         <CardHeader title="Orders" />
         <TableContainer

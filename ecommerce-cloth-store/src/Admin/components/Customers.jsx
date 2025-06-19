@@ -54,7 +54,7 @@ export default function Customers() {
   if (error) return <Typography color="error">Error: {error}</Typography>;
 
   return (
-    <div className="p-5">
+    <div className="p-3 md:p-5">
       <Card>
         <CardHeader title="All Users" />
 

@@ -5,10 +5,11 @@ import { Button, Rating } from "@mui/material";
 // import ProductReviewCard from "./ProductReviewCard";
 import { mens_kurta } from "../../../Data/Men/mens_kurta";
 import HomeSectionCard from "../HomeSectionCard/HomeSectionCard";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { findProductById, getProducts } from "../../../Features/productSlice";
 import { addItemToCart } from "../../../Features/cartSlice";
+// import { Link } from "react-alice-carousel";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -72,6 +73,7 @@ export default function ProductDetail() {
   const dispatch = useDispatch();
   const { singleProduct } = useSelector((state) => state.product);
   const { products } = useSelector((state) => state.product);
+  const { user } = useSelector((state) => state.auth);
 
   console.log("params.id", params.id);
 
@@ -168,7 +170,7 @@ export default function ProductDetail() {
             </div>
 
             <div className="flex flex-wrap justify-center space-x-5">
-              {sameCateoryProducts.slice(0,4).map((product) => {
+              {sameCateoryProducts.slice(0, 4).map((product) => {
                 return (
                   <>
                     <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4">
@@ -282,19 +284,28 @@ export default function ProductDetail() {
                   </fieldset>
                 </div>
 
-                <Button
-                  onClick={handleAddToCart}
-                  className="styledButton"
-                  variant="contained"
-                  sx={{
-                    px: "1.2rem",
-                    py: "0.5rem",
-                    // bgcolor: "#9155fd",
-                    mt: "2rem",
-                  }}
-                >
-                  Add to cart
-                </Button>
+                {!user ? (
+                  <div className="mt-10">
+                    <p className="text-lg text-indigo-600">
+                      Please <span className="font-bold  ">sign in</span> first
+                      to add items to your cart.
+                    </p>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={handleAddToCart}
+                    className="styledButton"
+                    variant="contained"
+                    sx={{
+                      px: "1.2rem",
+                      py: "0.5rem",
+                      // bgcolor: "#9155fd",
+                      mt: "2rem",
+                    }}
+                  >
+                    Add to cart
+                  </Button>
+                )}
               </form>
             </div>
 
