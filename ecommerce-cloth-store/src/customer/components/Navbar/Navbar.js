@@ -29,6 +29,7 @@ import AuthModal from "../../Auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile, logout } from "../../../Features/authSlice";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { getCart } from "../../../Features/cartSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -55,6 +56,11 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const { user, jwt } = useSelector((state) => state.auth);
   const jwtTokenLocalStorage = localStorage.getItem("jwt");
+  const { cartItems } = useSelector((state) => state.cartData);
+
+  useEffect(() => {
+    dispatch(getCart());
+  }, [dispatch, cartItems]);
 
   const handleUserClick = (e) => {
     setAnchorE1(e.currentTarget);
@@ -73,9 +79,9 @@ export default function Navbar() {
   };
 
   const handleCategoryClick = (category, section, item) => {
-    console.log('category', category)
-    console.log('section', section)
-    console.log('item', item)
+    console.log("category", category);
+    console.log("section", section);
+    console.log("item", item);
     navigate(`/${category.id}/${section.id}/${item.id}`);
     setOpen(false);
   };
@@ -523,13 +529,13 @@ export default function Navbar() {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <Link to="#" className="group -m-2 flex items-center p-2">
+                  <Link to="/cart" className="group -m-2 flex items-center p-2">
                     <ShoppingBagIcon
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      2
+                      {cartItems?.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>

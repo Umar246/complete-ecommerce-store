@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = "daknsdasdndmnddandndjandkjaa";
+const SECRET_KEY = process.env.REACT_APP_JWT_SECRET_KEY;
+console.log("JWT_SECRET_KEY: ", SECRET_KEY);
 
 //* 1- GENRATE TOKEN ON THE BASE OF USERID
 const genrateToken = (userId) => {

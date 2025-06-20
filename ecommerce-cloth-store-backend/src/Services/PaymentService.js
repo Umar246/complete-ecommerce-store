@@ -1,8 +1,6 @@
 const Stripe = require("stripe");
 const OrderService = require("./OrderService");
-const stripe = Stripe(
-  "sk_test_51PvLvzRtEwaT3m8ofE4VrCx8cPjwfE6qHTPvlTBsXZL2Kyoq8hctxXtfGNqX7y69PD4rXfwDcHHwzivf9dnKmE6y00SfgDLqkL"
-); // Stripe secret key from config
+const stripe = Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY); // Stripe secret key from config
 
 const createPaymentLinkService = async (orderId) => {
   try {
@@ -24,8 +22,8 @@ const createPaymentLinkService = async (orderId) => {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:3000/payment/success?payment_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`, // Include payment_id and order_id in the success URL // Frontend success URL
-      cancel_url: "http://localhost:3000/cancel", // Frontend cancel URL
+      success_url: `${process.env.REACT_APP_STRIPE_REDIRECT_URL}/payment/success?payment_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`, // Include payment_id and order_id in the success URL // Frontend success URL
+      cancel_url: `${process.env.REACT_APP_STRIPE_REDIRECT_URL}/cancel`, // Frontend cancel URL
     });
 
     // Send the payment link (session URL) as a response

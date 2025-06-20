@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Replace with your actual base URL
-const BASE_URL = "http://localhost:5007";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5007";
 
 // Signup action
 export const signup = createAsyncThunk(
