@@ -5,7 +5,7 @@ require("dotenv").config();
 
 app.use(
   cors({
-    origin: [""],
+    origin: ["https://cloth-store-six.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
