@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const ProductController = require("../Controllers/productController");
-const authenticate = require("../Middleware/authenticate");
+const ProductController = require("../Controllers/productController.js");
+const authenticate = require("../Middleware/authenticate.js");
 
 router.get("/", ProductController.getAllProducts);
 router.get("/id/:id", ProductController.findProductById);

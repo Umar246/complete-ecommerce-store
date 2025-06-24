@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const AdminOrderController = require("../Controllers/adminOrderController");
-const authenticate = require("../Middleware/authenticate");
+const AdminOrderController = require("../Controllers/adminOrderController.js");
+const authenticate = require("../Middleware/authenticate.js");
 
 router.get("/", authenticate, AdminOrderController.getAllOrders);
 router.put(
